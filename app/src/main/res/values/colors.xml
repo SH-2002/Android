@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#007FFF</color>
+    <color name="colorPrimaryDark">#007FFA</color>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="strokeColor">#C9C8C8</color>
+    <color name="cardBackground">#3696EC</color>
+    <color name="liteGray">#E1DFDF</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="gray">#B9B9B9</color>
+    <color name="gray_op20">#33B9B9B9</color>
+    <color name="gray_op30">#4DFFE2E2</color>
+    <color name="chatBackground">#050914</color>
+    <color name="respondMsgColor">#25313F</color>
+
+</resources>

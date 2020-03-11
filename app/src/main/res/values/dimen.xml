@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin_half">8dp</dimen>
+    <dimen name="fab_margin_quarter">4dp</dimen>
+    <dimen name="textSize24">24sp</dimen>
+    <dimen name="textSize18">18sp</dimen>
+    <dimen name="cornerRadiusSmall">8dp</dimen>
+    <dimen name="cornerRadiusBig">18dp</dimen>
+    <dimen name="textPadding">8dp</dimen>
+    <dimen name="textStartPadding">18dp</dimen>
+    <dimen name="userMsgTextSize">18sp</dimen>
+    <dimen name="responseMsgTextSize">24sp</dimen>
+    <dimen name="chatMaxMargin">80dp</dimen>
+
+</resources>
