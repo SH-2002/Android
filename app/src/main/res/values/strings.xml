@@ -26,4 +26,5 @@
     <string name="laptop">Laptop</string>
     <string name="select_your_category">Select your Category</string>
     <string name="submit">Submit</string>
+    <string name="send_image">Send image</string>
 </resources>

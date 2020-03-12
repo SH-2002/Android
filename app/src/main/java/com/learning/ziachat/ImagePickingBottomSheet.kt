@@ -1,22 +1,26 @@
 package com.learning.ziachat
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.learning.ziachat.customviews.CustomImagePicker
 
-class ImagePickingBottomSheet(context: Context) {
+class ImagePickingBottomSheet(private val context: Context) {
 
-    private val bottomSheet : BottomSheetDialog = BottomSheetDialog(context)
-    private var category1 : CustomImagePicker?
-    private var category2 : CustomImagePicker?
-    private var category3 : CustomImagePicker?
-    private var category4 : CustomImagePicker?
-    private var category5 : CustomImagePicker?
-    private var category6 : CustomImagePicker?
+    private val bottomSheet: BottomSheetDialog = BottomSheetDialog(context)
+    private var category1: CustomImagePicker?
+    private var category2: CustomImagePicker?
+    private var category3: CustomImagePicker?
+    private var category4: CustomImagePicker?
+    private var category5: CustomImagePicker?
+    private var category6: CustomImagePicker?
     private val TAG = ImagePickingBottomSheet::class.java.simpleName
+    private val selectedImages: MutableList<Drawable> = ArrayList()
+    private val sendImages : SendImages = context as SendImages
 
     init {
         bottomSheet.setContentView(R.layout.bottom_sheet_image_picker)
@@ -30,26 +34,70 @@ class ImagePickingBottomSheet(context: Context) {
         category6 = bottomSheet.findViewById(R.id.category6)
 
         category1?.setOnClickListener {
-            Log.e(TAG,category1.toString())
+            counter(it)
+        }
+
+        category2?.setOnClickListener {
+            counter(it)
+        }
+
+        category3?.setOnClickListener {
+            counter(it)
+        }
+
+        category4?.setOnClickListener {
+            counter(it)
+        }
+
+        category5?.setOnClickListener {
+            counter(it)
+        }
+
+        category6?.setOnClickListener {
+            counter(it)
         }
 
         val submit = bottomSheet.findViewById<Button>(R.id.submit)
         submit?.setOnClickListener {
-            Toast.makeText(context,"Bottom Sheet Cancelled",Toast.LENGTH_SHORT).show()
+            sendImages.sendImages(selectedImages)
             bottomSheet.dismiss()
         }
 
     }
 
-    fun show(){
+    fun show() {
         bottomSheet.show()
     }
 
 
-    fun dismiss(){
+    fun dismiss() {
         bottomSheet.dismiss()
     }
 
+    private fun counter(v: View) {
+        val customImagePicker = v as CustomImagePicker
+        val image = customImagePicker.getImage()
+        if(selectedImages.indexOf(image) != -1){
+            selectedImages.remove(image)
+            Log.e(TAG,"Image removed! size = ${getSelectedCount()}")
+        }else{
+            if(getSelectedCount() >= 5){
+                Log.e(TAG,"Limit reached! size = ${getSelectedCount()}")
+                Toast.makeText(context,"You can select upto 5 images!",Toast.LENGTH_SHORT).show()
+                customImagePicker.radioChecker(false)
+            }else{
+                selectedImages.add(image)
+                Log.e(TAG,"Image added! size = ${getSelectedCount()}")
+            }
+        }
+    }
 
+    private fun getSelectedCount() : Int{
+        return selectedImages.size
+    }
+
+    interface SendImages{
+        fun sendImages(images : MutableList<Drawable>)
+    }
 
 }

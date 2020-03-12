@@ -2,6 +2,7 @@ package com.learning.ziachat.adapters
 
 import android.content.Context
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,7 @@ import com.learning.ziachat.TableSize
 
 class ChatAdapter(
     private val context: Context,
-    private val messages: List<Any>
+    private var messages: MutableList<Any>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = ChatAdapter::class.java.simpleName
@@ -25,23 +26,30 @@ class ChatAdapter(
     private var onAcceptClicked: OnAcceptClicked = context as OnAcceptClicked
 
     override fun getItemViewType(position: Int): Int {
-        return if(messages[position] is String){
-            4
-        }else{
-            16
+        return when {
+            messages[position] is String -> 4
+            messages[position] is Drawable -> 8
+            else -> 16
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view : View
-        return if(viewType == 4){
-            view = LayoutInflater.from(context).inflate(R.layout.user_chat_ui, parent, false)
-            UserMessageViewHolder(view)
-        }else{
-            view = LayoutInflater.from(context).inflate(R.layout.response_ui, parent,false)
-            ResponseMessageViewHolder(
-                view
-            )
+        return when (viewType) {
+            4 -> {
+                view = LayoutInflater.from(context).inflate(R.layout.user_chat_ui, parent, false)
+                UserMessageViewHolder(view)
+            }
+            8 -> {
+                view = LayoutInflater.from(context).inflate(R.layout.chat_image_view, parent, false)
+                return ImageViewHolder(view)
+            }
+            else -> {
+                view = LayoutInflater.from(context).inflate(R.layout.response_ui, parent,false)
+                ResponseMessageViewHolder(
+                    view
+                )
+            }
         }
     }
 
@@ -50,27 +58,27 @@ class ChatAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(messages[position] is String){
-            val viewHolder = holder as UserMessageViewHolder
-            viewHolder.userMsg.text = messages[position].toString()
-        }else   {
-            val viewHolder = holder as ResponseMessageViewHolder
-            Log.e(TAG,messages[position].toString())
-            val message = messages[position] as MutableList<Array<String>>
-//            if(message.size > 7){
-//                Log.e(TAG,"Height setted!")
-//                val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,742)
-//                viewHolder.layout.layoutParams = params
-//            }
-//            val scrollView = ScrollView(context)
-//            scrollView.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT)
-//            scrollView.addView(createTable(message))
-//            viewHolder.layout.addView(scrollView)
-            viewHolder.accept.setOnClickListener {
-                onAcceptClicked.onAcceptClicked()
+        when {
+            messages[position] is String -> {
+                val viewHolder = holder as UserMessageViewHolder
+                viewHolder.userMsg.text = messages[position].toString()
             }
-            viewHolder.layout.addView(headerSeparator(message))
+            messages[position] is Drawable -> {
+                Log.e(TAG,"Drawable came Position = $position")
+                val viewHolder = holder as ImageViewHolder
+                viewHolder.imageView.setImageDrawable(messages[position] as Drawable)
+            }
+            else -> {
+                val viewHolder = holder as ResponseMessageViewHolder
+                Log.e(TAG,messages[position].toString())
+                val message = messages[position] as MutableList<Array<String>>
+                viewHolder.accept.setOnClickListener {
+                    onAcceptClicked.onAcceptClicked()
+                }
+                viewHolder.layout.removeAllViews()
+                viewHolder.layout.addView(headerSeparator(message))
 
+            }
         }
     }
 
@@ -82,6 +90,11 @@ class ChatAdapter(
         val layout : HorizontalScrollView = itemView.findViewById(R.id.scrollLayout)
         val accept : Button = itemView.findViewById(R.id.accept)
     }
+
+    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val imageView : ImageView = itemView.findViewById(R.id.imageView)
+    }
+
     private fun getHeight(v : View){
         Log.e(TAG,v.height.toString()+"  $v")
     }
@@ -164,6 +177,11 @@ class ChatAdapter(
             row.addView(textView)
         }
         return row
+    }
+
+    fun setMessages(messages : MutableList<Any>){
+        this.messages = messages
+        notifyDataSetChanged()
     }
 
     interface OnAcceptClicked{

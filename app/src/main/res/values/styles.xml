@@ -36,4 +36,16 @@
         <item name="android:background">@drawable/empty_rounded_corner</item>
     </style>
 
+    <style name="MyCardView" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.Cut</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialCardView.Cut" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/fab_margin_half</item>
+        <item name="cornerSizeTopLeft">@dimen/fab_margin_half</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">@dimen/fab_margin_half</item>
+    </style>
+
 </resources>
