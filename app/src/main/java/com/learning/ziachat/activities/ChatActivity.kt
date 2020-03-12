@@ -1,16 +1,20 @@
-package com.learning.ziachat
+package com.learning.ziachat.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.learning.ziachat.ImagePickingBottomSheet
+import com.learning.ziachat.adapters.ChatAdapter
+import com.learning.ziachat.R
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.response_ui.*
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked {
 
     private val messageList : MutableList<Any> = ArrayList()
     private val TAG = ChatActivity::class.java.simpleName
@@ -23,13 +27,16 @@ class ChatActivity : AppCompatActivity() {
         val window = this.window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this,R.color.chatBackground)
+        window.statusBarColor = ContextCompat.getColor(this,
+            R.color.chatBackground
+        )
         messageList.add("Hai")
         messageList.add("SeeNu")
         messageList.add(tableArray)
         messageList.add("Good Evening!")
         chatView.layoutManager = LinearLayoutManager(this)
-        chatView.adapter = ChatAdapter(this,messageList)
+        chatView.adapter =
+            ChatAdapter(this, messageList)
     }
 
 
@@ -50,4 +57,12 @@ class ChatActivity : AppCompatActivity() {
         tableArray.add(arrayOf("11","Seenivasan","ZUCH810","seenivasan.t@zohocorp.com"))
         tableArray.add(arrayOf("12","Priya","ZUCH800","priya.eg@zohocorp.com"))
     }
+
+    override fun onAcceptClicked() {
+        val bottomSheet = ImagePickingBottomSheet(this)
+        bottomSheet.show()
+
+    }
+
+
 }

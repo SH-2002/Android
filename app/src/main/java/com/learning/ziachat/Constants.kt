@@ -8,3 +8,12 @@ class TableSize{
     }
 
 }
+
+class ScreenSize{
+
+    companion object{
+        var width : Int = 0
+        var height : Int = 0
+    }
+
+}

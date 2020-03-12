@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/chatBackground"
-    tools:context=".ChatActivity2">
+    tools:context=".activities.ChatActivity2">
 
     <LinearLayout
         android:id="@+id/chatView2"

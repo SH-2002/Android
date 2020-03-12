@@ -1,4 +1,4 @@
-package com.learning.ziachat
+package com.learning.ziachat.activities
 
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -13,12 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setMargins
 import androidx.core.view.setPadding
-import androidx.core.widget.NestedScrollView
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.activity_chat.chatView
-import kotlinx.android.synthetic.main.activity_chat2.*
-import kotlinx.android.synthetic.main.response_ui.*
+import com.learning.ziachat.R
+import com.learning.ziachat.TableSize
 import kotlinx.android.synthetic.main.user_chat_ui.view.*
 
 class ChatActivity2 : AppCompatActivity() {
@@ -35,7 +31,9 @@ class ChatActivity2 : AppCompatActivity() {
         val window = this.window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this,R.color.chatBackground)
+        window.statusBarColor = ContextCompat.getColor(this,
+            R.color.chatBackground
+        )
         messageList.add("Hai")
         messageList.add("SeeNu")
         messageList.add(tableArray)
@@ -114,7 +112,9 @@ class ChatActivity2 : AppCompatActivity() {
         val params = TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT)
         val layout : TableLayout = createRows(messages)
         layout.layoutParams = params
-        layout.background = ContextCompat.getDrawable(this,R.drawable.rounded_corner)
+        layout.background = ContextCompat.getDrawable(this,
+            R.drawable.rounded_corner
+        )
         layout.id = View.generateViewId()
         return layout
     }
@@ -124,11 +124,15 @@ class ChatActivity2 : AppCompatActivity() {
         val params = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT)
         params.setMargins(16)
         table.forEach {
-            val row : TableRow = createTextViews(it,TableSize.isFirst)
+            val row : TableRow = createTextViews(it,
+                TableSize.isFirst
+            )
             row.id = View.generateViewId()
             row.layoutParams = params
             if(TableSize.isFirst){
-                row.setBackgroundColor(ContextCompat.getColor(this,R.color.gray_op20))
+                row.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.gray_op20
+                ))
             }
             TableSize.isFirst = false
             tableLayout.addView(row)
@@ -149,9 +153,13 @@ class ChatActivity2 : AppCompatActivity() {
                 textView.textSize = 18F
             }
             textView.setPadding(8)
-            textView.setTextColor(ContextCompat.getColor(this,R.color.white))
+            textView.setTextColor(ContextCompat.getColor(this,
+                R.color.white
+            ))
             textView.typeface =
-                Typeface.create(ResourcesCompat.getFont(this,R.font.roboto_slab), Typeface.NORMAL)
+                Typeface.create(ResourcesCompat.getFont(this,
+                    R.font.roboto_slab
+                ), Typeface.NORMAL)
             row.addView(textView)
         }
         return row

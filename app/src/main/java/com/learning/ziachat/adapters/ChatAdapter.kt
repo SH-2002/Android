@@ -1,4 +1,4 @@
-package com.learning.ziachat
+package com.learning.ziachat.adapters
 
 import android.content.Context
 import android.graphics.Typeface
@@ -12,6 +12,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setMargins
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
+import com.learning.ziachat.R
+import com.learning.ziachat.TableSize
 
 class ChatAdapter(
     private val context: Context,
@@ -20,6 +22,7 @@ class ChatAdapter(
 
     private val TAG = ChatAdapter::class.java.simpleName
     private var scrollViewId : Int = 0
+    private var onAcceptClicked: OnAcceptClicked = context as OnAcceptClicked
 
     override fun getItemViewType(position: Int): Int {
         return if(messages[position] is String){
@@ -36,7 +39,9 @@ class ChatAdapter(
             UserMessageViewHolder(view)
         }else{
             view = LayoutInflater.from(context).inflate(R.layout.response_ui, parent,false)
-            ResponseMessageViewHolder(view)
+            ResponseMessageViewHolder(
+                view
+            )
         }
     }
 
@@ -61,6 +66,9 @@ class ChatAdapter(
 //            scrollView.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT)
 //            scrollView.addView(createTable(message))
 //            viewHolder.layout.addView(scrollView)
+            viewHolder.accept.setOnClickListener {
+                onAcceptClicked.onAcceptClicked()
+            }
             viewHolder.layout.addView(headerSeparator(message))
 
         }
@@ -72,6 +80,7 @@ class ChatAdapter(
 
     class ResponseMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val layout : HorizontalScrollView = itemView.findViewById(R.id.scrollLayout)
+        val accept : Button = itemView.findViewById(R.id.accept)
     }
     private fun getHeight(v : View){
         Log.e(TAG,v.height.toString()+"  $v")
@@ -104,7 +113,9 @@ class ChatAdapter(
         val layout : TableLayout = createRows(messages)
         layout.setOnClickListener { getHeight(it) }
         layout.layoutParams = params
-        layout.background = ContextCompat.getDrawable(context,R.drawable.rounded_corner)
+        layout.background = ContextCompat.getDrawable(context,
+            R.drawable.rounded_corner
+        )
         layout.id = View.generateViewId()
         return layout
     }
@@ -114,11 +125,15 @@ class ChatAdapter(
         val params = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.WRAP_CONTENT)
         params.setMargins(16)
         table.forEach {
-            val row : TableRow = createTextViews(it,TableSize.isFirst)
+            val row : TableRow = createTextViews(it,
+                TableSize.isFirst
+            )
             row.id = View.generateViewId()
             row.layoutParams = params
             if(TableSize.isFirst){
-                row.setBackgroundColor(ContextCompat.getColor(context,R.color.gray_op20))
+                row.setBackgroundColor(ContextCompat.getColor(context,
+                    R.color.gray_op20
+                ))
             }
             TableSize.isFirst = false
             tableLayout.addView(row)
@@ -139,12 +154,20 @@ class ChatAdapter(
                 textView.textSize = 18F
             }
             textView.setPadding(8)
-            textView.setTextColor(ContextCompat.getColor(context,R.color.white))
+            textView.setTextColor(ContextCompat.getColor(context,
+                R.color.white
+            ))
             textView.typeface =
-                Typeface.create(ResourcesCompat.getFont(context,R.font.roboto_slab), Typeface.NORMAL)
+                Typeface.create(ResourcesCompat.getFont(context,
+                    R.font.roboto_slab
+                ), Typeface.NORMAL)
             row.addView(textView)
         }
         return row
+    }
+
+    interface OnAcceptClicked{
+        fun onAcceptClicked()
     }
 
 }

@@ -5,6 +5,7 @@
     <dimen name="fab_margin_half">8dp</dimen>
     <dimen name="fab_margin_quarter">4dp</dimen>
     <dimen name="textSize24">24sp</dimen>
+    <dimen name="margin28">28dp</dimen>
     <dimen name="textSize18">18sp</dimen>
     <dimen name="cornerRadiusSmall">8dp</dimen>
     <dimen name="cornerRadiusBig">18dp</dimen>

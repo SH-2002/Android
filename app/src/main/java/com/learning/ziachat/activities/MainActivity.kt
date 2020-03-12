@@ -1,11 +1,9 @@
-package com.learning.ziachat
+package com.learning.ziachat.activities
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import com.learning.ziachat.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,12 +14,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        toolbar.setNavigationOnClickListener {
+            startActivity(Intent(this,DemoActivity::class.java))
+        }
+
         withoutRecycler.setOnClickListener {
-            startActivity(Intent(this,ChatActivity2::class.java))
+            startActivity(Intent(this,
+                ChatActivity2::class.java))
         }
 
         withRecycler.setOnClickListener {
-            startActivity(Intent(this,ChatActivity::class.java))
+            startActivity(Intent(this,
+                ChatActivity::class.java))
         }
     }
 

@@ -16,4 +16,14 @@
     <string name="reject">Reject</string>
     <string name="accept">Accept</string>
     <string name="chat_page_with_recycler_view">Chat page with Recycler view</string>
+    <string name="image_picker">Image picker</string>
+
+    <string name="iphone">Iphone</string>
+    <string name="chair">Chair</string>
+    <string name="setup">Setup</string>
+    <string name="lighting">Lighting</string>
+    <string name="art">Art</string>
+    <string name="laptop">Laptop</string>
+    <string name="select_your_category">Select your Category</string>
+    <string name="submit">Submit</string>
 </resources>
