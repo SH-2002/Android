@@ -84,13 +84,13 @@ class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked, ImagePick
     }
 
     override fun sendImages(images: MutableList<Drawable>) {
-        chatAdapter.setMessages(messageList)
         images.forEach {
             messageList.add(it)
         }
         messageList.forEach {
             Log.e(TAG,it.toString())
         }
+        chatAdapter.setMessages(messageList)
     }
 
 

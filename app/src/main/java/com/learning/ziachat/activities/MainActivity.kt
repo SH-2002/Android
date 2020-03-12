@@ -13,11 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        toolbar.setNavigationOnClickListener {
-            startActivity(Intent(this,DemoActivity::class.java))
-        }
-
+        
         withoutRecycler.setOnClickListener {
             startActivity(Intent(this,
                 ChatActivity2::class.java))
