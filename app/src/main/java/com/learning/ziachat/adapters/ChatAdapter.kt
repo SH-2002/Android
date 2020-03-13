@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setMargins
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.learning.ziachat.R
 import com.learning.ziachat.TableSize
 
@@ -28,7 +29,7 @@ class ChatAdapter(
     override fun getItemViewType(position: Int): Int {
         return when {
             messages[position] is String -> 4
-            messages[position] is Drawable -> 8
+            messages[position] is Array<*> -> 8
             else -> 16
         }
     }
@@ -63,10 +64,12 @@ class ChatAdapter(
                 val viewHolder = holder as UserMessageViewHolder
                 viewHolder.userMsg.text = messages[position].toString()
             }
-            messages[position] is Drawable -> {
+            messages[position] is Array<*> -> {
                 Log.e(TAG,"Drawable came Position = $position")
                 val viewHolder = holder as ImageViewHolder
-                viewHolder.imageView.setImageDrawable(messages[position] as Drawable)
+                Log.e(TAG,messages[position].toString()+" position = $position")
+                val imageAdapter = ImagePagerAdapter(context,messages[position] as Array<Drawable>)
+                viewHolder.imageView.adapter = imageAdapter
             }
             else -> {
                 val viewHolder = holder as ResponseMessageViewHolder
@@ -92,7 +95,7 @@ class ChatAdapter(
     }
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val imageView : ImageView = itemView.findViewById(R.id.imageView)
+        val imageView : ViewPager = itemView.findViewById(R.id.imagePager)
     }
 
     private fun getHeight(v : View){
