@@ -6,21 +6,25 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.learning.ziachat.customviews.CustomBottomSheet
 import com.learning.ziachat.customviews.CustomImagePicker
 
-class ImagePickingBottomSheet(private val context: Context) {
+class ImagePickingBottomSheet(private val context: Context, private val dimView : View) : CustomBottomSheet.OnBottomDismissed {
 
-    private val bottomSheet: BottomSheetDialog = BottomSheetDialog(context)
+    private val bottomSheet: CustomBottomSheet = CustomBottomSheet(context,this)
     private var category1: CustomImagePicker?
     private var category2: CustomImagePicker?
     private var category3: CustomImagePicker?
     private var category4: CustomImagePicker?
     private var category5: CustomImagePicker?
     private var category6: CustomImagePicker?
+    private var parent: ConstraintLayout?
     private val TAG = ImagePickingBottomSheet::class.java.simpleName
     private val selectedImages: MutableList<Drawable> = ArrayList()
-    private val sendImages : SendImages = context as SendImages
+    private val sendImages: SendImages = context as SendImages
 
     init {
         bottomSheet.setContentView(R.layout.bottom_sheet_image_picker)
@@ -32,6 +36,7 @@ class ImagePickingBottomSheet(private val context: Context) {
         category4 = bottomSheet.findViewById(R.id.category4)
         category5 = bottomSheet.findViewById(R.id.category5)
         category6 = bottomSheet.findViewById(R.id.category6)
+        parent = bottomSheet.findViewById(R.id.parent)
 
         category1?.setOnClickListener {
             counter(it)
@@ -60,9 +65,13 @@ class ImagePickingBottomSheet(private val context: Context) {
         val submit = bottomSheet.findViewById<Button>(R.id.submit)
         submit?.setOnClickListener {
             sendImages.sendImages(selectedImages)
-            bottomSheet.dismiss()
+            dismiss()
         }
 
+    }
+
+    fun getBottomSheet(): View {
+        return parent as View
     }
 
     fun show() {
@@ -70,34 +79,40 @@ class ImagePickingBottomSheet(private val context: Context) {
     }
 
 
-    fun dismiss() {
+
+    private fun dismiss() {
+        dimView.setBackgroundColor(ContextCompat.getColor(context,R.color.transparent))
         bottomSheet.dismiss()
     }
 
     private fun counter(v: View) {
         val customImagePicker = v as CustomImagePicker
         val image = customImagePicker.getImage()
-        if(selectedImages.indexOf(image) != -1){
+        if (selectedImages.indexOf(image) != -1) {
             selectedImages.remove(image)
-            Log.e(TAG,"Image removed! size = ${getSelectedCount()}")
-        }else{
-            if(getSelectedCount() >= 5){
-                Log.e(TAG,"Limit reached! size = ${getSelectedCount()}")
-                Toast.makeText(context,"You can select upto 5 images!",Toast.LENGTH_SHORT).show()
+            Log.e(TAG, "Image removed! size = ${getSelectedCount()}")
+        } else {
+            if (getSelectedCount() >= 5) {
+                Log.e(TAG, "Limit reached! size = ${getSelectedCount()}")
+                Toast.makeText(context, "You can select upto 5 images!", Toast.LENGTH_SHORT).show()
                 customImagePicker.radioChecker(false)
-            }else{
+            } else {
                 selectedImages.add(image)
-                Log.e(TAG,"Image added! size = ${getSelectedCount()}")
+                Log.e(TAG, "Image added! size = ${getSelectedCount()}")
             }
         }
     }
 
-    private fun getSelectedCount() : Int{
+    private fun getSelectedCount(): Int {
         return selectedImages.size
     }
 
-    interface SendImages{
-        fun sendImages(images : MutableList<Drawable>)
+    interface SendImages {
+        fun sendImages(images: MutableList<Drawable>)
+    }
+
+    override fun bottomSheetDismissed() {
+        dimView.setBackgroundColor(ContextCompat.getColor(context,R.color.transparent))
     }
 
 }

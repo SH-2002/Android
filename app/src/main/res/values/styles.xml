@@ -34,6 +34,7 @@
     <style name="AppModalStyle"
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/empty_rounded_corner</item>
+        <item name="behavior_peekHeight">@dimen/custom_peek_height</item>
     </style>
 
     <style name="MyCardView" parent="@style/Widget.MaterialComponents.CardView">
@@ -47,5 +48,8 @@
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">@dimen/fab_margin_half</item>
     </style>
+
+
+
 
 </resources>

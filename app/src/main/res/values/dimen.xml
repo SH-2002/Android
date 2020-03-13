@@ -15,5 +15,6 @@
     <dimen name="userMsgTextSize">18sp</dimen>
     <dimen name="responseMsgTextSize">24sp</dimen>
     <dimen name="chatMaxMargin">80dp</dimen>
+    <dimen name="custom_peek_height">800dp</dimen>
 
 </resources>

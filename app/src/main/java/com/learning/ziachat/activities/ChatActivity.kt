@@ -1,22 +1,19 @@
 package com.learning.ziachat.activities
 
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.Toast
+import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.learning.ziachat.ImagePickingBottomSheet
-import com.learning.ziachat.adapters.ChatAdapter
 import com.learning.ziachat.R
-import com.learning.ziachat.customviews.CustomImagePicker
+import com.learning.ziachat.adapters.ChatAdapter
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlin.reflect.typeOf
+
 
 class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked, ImagePickingBottomSheet.SendImages {
 
@@ -24,12 +21,16 @@ class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked, ImagePick
     private val TAG = ChatActivity::class.java.simpleName
     private val tableArray : MutableList<Array<String>> = ArrayList()
     private lateinit var chatAdapter: ChatAdapter
+    private lateinit var parent: RelativeLayout
+    private lateinit var dimView : View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         arrayAdder()
         val window = this.window
+        parent = findViewById(R.id.parent)
+        dimView = findViewById(R.id.dimView)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this,
@@ -43,7 +44,6 @@ class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked, ImagePick
         chatView.layoutManager = LinearLayoutManager(this)
         chatView.adapter = chatAdapter
     }
-
 
 
 
@@ -64,22 +64,8 @@ class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked, ImagePick
     }
 
     override fun onAcceptClicked() {
-//        val bottomSheet = BottomSheetDialog(this)
-//        bottomSheet.setContentView(R.layout.bottom_sheet_image_picker)
-//        bottomSheet.setCanceledOnTouchOutside(false)
-//
-//        val submit = bottomSheet.findViewById<Button>(R.id.submit)
-//        submit?.setOnClickListener {
-//            Toast.makeText(this,"Bottom Sheet Cancelled",Toast.LENGTH_SHORT).show()
-//            bottomSheet.dismiss() }
-//
-//        bottomSheet.show()
-//
-//        val category1 : CustomImagePicker? = bottomSheet.findViewById(R.id.category1)
-//        category1?.setOnClickListener {
-//            bottomSheet.dismiss()
-//        }
-        val bottomSheetDialog = ImagePickingBottomSheet(this)
+        val bottomSheetDialog = ImagePickingBottomSheet(this,dimView)
+        dimView.setBackgroundColor(ContextCompat.getColor(this,R.color.black_op))
         bottomSheetDialog.show()
     }
 
