@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.DetailsActivity"></activity>
         <activity android:name=".activities.ChatActivity2" />
-        <activity android:name=".activities.DemoActivity"/>
+        <activity android:name=".activities.DemoActivity" />
         <activity android:name=".activities.ChatActivity" />
         <activity
             android:name=".activities.MainActivity"

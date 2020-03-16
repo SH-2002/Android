@@ -1,21 +1,31 @@
 package com.learning.ziachat.activities
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.learning.ziachat.ChatTypeConverters
+import com.learning.ziachat.DataClass
 import com.learning.ziachat.ImagePickingBottomSheet
 import com.learning.ziachat.R
 import com.learning.ziachat.adapters.ChatAdapter
+import com.learning.ziachat.adapters.ImagePagerAdapter
 import kotlinx.android.synthetic.main.activity_chat.*
+import java.io.ByteArrayOutputStream
 
 
 class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked,
-    ImagePickingBottomSheet.SendImages {
+    ImagePickingBottomSheet.SendImages,
+    ChatAdapter.OnDetailsPageSender{
+
 
     private val messageList: MutableList<Any> = ArrayList()
     private val TAG = ChatActivity::class.java.simpleName
@@ -70,7 +80,8 @@ class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked,
     }
 
     override fun sendImages(images: MutableList<Drawable>) {
-        val imageArr: Array<Drawable> = Array(images.size) { ContextCompat.getDrawable(this,R.drawable.laptop)!!}
+        val imageArr: Array<Drawable> =
+            Array(images.size) { ContextCompat.getDrawable(this, R.drawable.laptop)!! }
         images.forEach {
             imageArr[images.indexOf(it)] = it
         }
@@ -78,5 +89,42 @@ class ChatActivity : AppCompatActivity(), ChatAdapter.OnAcceptClicked,
         chatAdapter.setMessages(messageList)
     }
 
+    override fun sendData(data: Any) {
+        val intent = Intent(this, DetailsActivity::class.java)
+
+        val bundle = Bundle()
+        when (data) {
+            is MutableList<*> -> {
+                bundle.putSerializable("data",DataClass(1,data as MutableList<Array<String>>,null))
+            }
+            is Array<*> -> {
+                Log.e(TAG,data.toString())
+                bundle.putSerializable("data",DataClass(2,null,data as Array<ByteArray>))
+            }
+        }
+        intent.putExtra("data",bundle)
+        startActivity(intent)
+    }
+
+//    override fun onClicked(data: Array<Drawable>) {
+//        val intent = Intent(this, DetailsActivity::class.java)
+//        val bundle = Bundle()
+//        bundle.putSerializable("data",DataClass(2,null,typeConverter(data)))
+//        intent.putExtra("data",bundle)
+//        startActivity(intent)
+//    }
+//
+//    private fun typeConverter(images: Array<Drawable>): Array<ByteArray> {
+//        val imagesArray: Array<ByteArray> =
+//            Array(images.size) { i -> ByteArrayOutputStream().toByteArray() }
+//        images.forEach {
+//            val bitmap = (it as BitmapDrawable).bitmap
+//            val stream = ByteArrayOutputStream()
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 65, stream)
+//            val bitmapData = stream.toByteArray()
+//            imagesArray[images.indexOf(it)] = bitmapData
+//        }
+//        return imagesArray
+//    }
 
 }

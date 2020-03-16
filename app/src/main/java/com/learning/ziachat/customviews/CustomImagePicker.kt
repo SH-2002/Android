@@ -14,11 +14,11 @@ class CustomImagePicker(context: Context, attrs: AttributeSet) : RelativeLayout(
 
     private val isSelected: RadioButton
     private var isImageIsSelected = false
-    private val imageView : ImageView
+    private val imageView: ImageView
 
     init {
         View.inflate(context, R.layout.custom_imagepicker_view, this)
-        val parent : RelativeLayout = findViewById(R.id.parent)
+        val parent: RelativeLayout = findViewById(R.id.parent)
         imageView = findViewById(R.id.image)
         val category: TextView = findViewById(R.id.category)
         isSelected = findViewById(R.id.isSelected)
@@ -38,7 +38,7 @@ class CustomImagePicker(context: Context, attrs: AttributeSet) : RelativeLayout(
 
     }
 
-    fun radioChecker(isChecked : Boolean){
+    fun radioChecker(isChecked: Boolean) {
         isSelected.isChecked = isChecked
         isImageIsSelected = isChecked
     }
@@ -57,9 +57,8 @@ class CustomImagePicker(context: Context, attrs: AttributeSet) : RelativeLayout(
         }
     }
 
-    fun getImage() : Drawable{
+    fun getImage(): Drawable {
         return imageView.drawable
     }
-
 
 }

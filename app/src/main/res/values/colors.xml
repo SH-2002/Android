@@ -17,5 +17,6 @@
     <color name="respondMsgColor">#25313F</color>
 
     <color name="black_op">#99000000</color>
+    <color name="black_op80">#CC000000</color>
 
 </resources>
