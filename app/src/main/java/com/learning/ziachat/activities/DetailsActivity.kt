@@ -11,11 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.learning.ziachat.DataClass
 import com.learning.ziachat.R
+import com.learning.ziachat.TableCreatingFunction2
 import com.learning.ziachat.adapters.ChatAdapter
 import com.learning.ziachat.adapters.ImagePagerAdapter
+import com.learning.ziachat.dataclasses.UserInformation
 import kotlinx.android.synthetic.main.activity_details.*
 
-class DetailsActivity : AppCompatActivity(), TableCreatingFunctions.OnClicked {
+class DetailsActivity : AppCompatActivity(), TableCreatingFunction2.OnTableClicked {
 
     private val TAG = DetailsActivity::class.java.simpleName
 
@@ -31,7 +33,7 @@ class DetailsActivity : AppCompatActivity(), TableCreatingFunctions.OnClicked {
             R.color.chatBackground
         )
 
-        var data1: MutableList<Array<String>>?
+        var data1: List<UserInformation>?
         var data2: Array<ByteArray>? = null
 
         val bundle: Bundle? = intent.getBundleExtra("data")
@@ -44,11 +46,9 @@ class DetailsActivity : AppCompatActivity(), TableCreatingFunctions.OnClicked {
                     heading.text = "Table"
                     scrollLayout.visibility = View.VISIBLE
                     subParent.visibility = View.GONE
-                    data1 = intent.table
-                    val layout = TableCreatingFunctions(this).headerSeparator(data1!!,false)
+                    data1 = com.learning.ziachat.UserInformation.userInformation
                     Log.e(TAG,data1.toString())
-                    scrollLayout.addView(layout)
-                    Log.e(TAG,layout.toString())
+                    scrollLayout.addView(TableCreatingFunction2(this,data1!!).viewReturner())
                 }
                 2 -> {
                     heading.text = "Images"
@@ -81,8 +81,7 @@ class DetailsActivity : AppCompatActivity(), TableCreatingFunctions.OnClicked {
         return imagesArray
     }
 
-    override fun sendData(data: MutableList<Array<String>>) {
-
+    override fun sendTable(tableData: List<UserInformation>) {
     }
 
 

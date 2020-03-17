@@ -1,5 +1,7 @@
 package com.learning.ziachat
 
+import com.learning.ziachat.dataclasses.UserInformation
+
 class TableSize{
 
     companion object{
@@ -16,4 +18,10 @@ class ScreenSize{
         var height : Int = 0
     }
 
+}
+
+class UserInformation{
+    companion object{
+        var userInformation : List<UserInformation>? = null
+    }
 }
